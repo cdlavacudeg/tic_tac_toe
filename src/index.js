@@ -41,6 +41,15 @@ class Board extends React.Component {
       );
     }
 }
+
+function WinnerCount(props){
+  return (
+    <div>
+    <p>Win counter</p>
+    <p>'X' = {props.counter[0]}  |  'O' = {props.counter[1]} </p>
+    </div>
+  );
+}
   
 class Game extends React.Component {
     constructor(props){
@@ -50,14 +59,19 @@ class Game extends React.Component {
                 squares: Array(9).fill(null)
             }],
             moveNumber:0,
-            xIsNext:true
+            xIsNext:true,
+            counterXO:[0,0],
+            winner:false
         }
+        this.winnerHandle=this.winnerHandle.bind(this);
     }
     handleClick=(i)=>{
         const history= this.state.history.slice(0, this.state.moveNumber + 1);
         const current= history[history.length -1];
         const squares = current.squares.slice();
         if (calculateWinner(squares) || squares[i]) {
+            let winner=this.winnerHandle(calculateWinner(squares));
+            if(winner) this.jumpTo(0);
             return;
           }
         squares[i]= this.state.xIsNext ? 'X' :'O';
@@ -73,15 +87,32 @@ class Game extends React.Component {
     jumpTo=(move)=>{
         this.setState({
             moveNumber:move,
-            xIsNext:(move % 2) === 0,        
+            xIsNext:(move % 2) === 0        
         })
     }
+
+    winnerHandle=(winner)=>{
+      const counter=this.state.counterXO;
+      switch(winner){
+        case 'X':
+          this.setState({counterXO:[counter[0]+1,counter[1]]});
+          return true;
+        case 'O':
+          this.setState({counterXO:[counter[0],counter[1]+1]});
+          return true;
+        default:
+          this.setState({counterXO:counter});
+          return false;
+
+      }
+    }
+      
+    
 
     render() {
       const history= this.state.history;
       const current= history[this.state.moveNumber];
       const winner= calculateWinner(current.squares);
-
       const moves=history.map((step,move)=>{
         const desc = move
                     ? 'Go to move #'+ move
@@ -107,6 +138,9 @@ class Game extends React.Component {
             <div className="game-info">
               <ol>{moves}</ol>
             </div>
+          </div>
+          <div className="winner-counter">
+            <WinnerCount counter={this.state.counterXO}/>
           </div>
         </div>
       );
