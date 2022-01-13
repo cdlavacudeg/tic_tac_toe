@@ -1,6 +1,6 @@
 body {
     font-family:"Century Gothic", Futura, sans-serif;
-    margin: 20px;
+    margin: 0;
     background-color: rgb(139, 139, 139);
     display: grid;
     place-items: center;
@@ -11,9 +11,20 @@ html{
     font-size: 62.5%;
 }
 ol, ul {
+    font-size: 1.6rem;
+    color: white;
     padding-left: 30px;
 }
 
+ol li button{
+    background-color: white;
+    color: rgb(97, 96, 96);
+    font-size: 1.6rem;
+    border: none;
+    border-radius: 5px ;
+    padding: 5px;
+    margin: 5px;
+}
 .board-row:after {
     clear: both;
     content: "";
@@ -24,6 +35,7 @@ ol, ul {
     margin-bottom: 10px;
     color: #fff;
     font-size: 3rem;
+    text-align: center;
 }
 
 .square {
@@ -60,10 +72,21 @@ ol, ul {
 }
 
 .game-info {
+    padding-top:37px;
     margin-left: 20px;
 }
 
 #root{
-    width: 500px;
-    height: 500px;
+    width: 80%;
+    min-width: 320px;
+    height: auto;
 }
+
+@media (max-width: 488px) {
+    .game {
+      flex-direction: column;
+    }
+    ol, ul {
+        padding: 0;
+    }
+  }
