@@ -76,10 +76,20 @@ ol li button{
     margin-left: 20px;
 }
 
-#root{
-    width: 80%;
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     min-width: 320px;
     height: auto;
+}
+
+.container h1{
+    font-size: 5rem;
+    color: white;
+    margin-bottom: 130px;
 }
 
 @media (max-width: 488px) {
